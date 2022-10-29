@@ -31,3 +31,8 @@ db.query(`SELECT * FROM departments`, function (err, results) {
 db.query(`SELECT * FROM roles`, function (err, results) {
     console.table(results);
 });
+
+// query to show all employees table
+db.query(`SELECT * FROM employees`, function (err, results) {
+    console.table(results);
+});
