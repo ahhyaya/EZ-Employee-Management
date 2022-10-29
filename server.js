@@ -36,3 +36,7 @@ db.query(`SELECT * FROM roles`, function (err, results) {
 db.query(`SELECT * FROM employees`, function (err, results) {
     console.table(results);
 });
+
+app.listen(PORT, () => {
+    console.log(`EZ-EMPLOYEE-MANAGEMENT running on port ${PORT}`);
+});
