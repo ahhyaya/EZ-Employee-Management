@@ -27,3 +27,7 @@ db.query(`SELECT * FROM departments`, function (err, results) {
     console.table(results);
 });
 
+// query to show all roles table
+db.query(`SELECT * FROM roles`, function (err, results) {
+    console.table(results);
+});
