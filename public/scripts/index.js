@@ -125,7 +125,7 @@ const updateEmployeeRole = () => {
         {
             type: 'list',
             name: 'employees',
-            message: 'Which employee\'s role do you want to update?'
+            message: 'Which employee\'s role do you want to update?',
             choices: []  //from employee database
         },
     ]
@@ -138,7 +138,12 @@ const updateEmployeeRole = () => {
 
 
 
-function init() {
-    inquirer.createPromptModule(mainQuestions)
-        .then()
-}
+// function init() {
+//     inquirer.createPromptModule(mainQuestions)
+//         .then()
+// }
+
+chooseAction()
+    .then(setDepartment)
+    .then(setRole)
+    .then(setEmployee)
