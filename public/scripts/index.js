@@ -117,6 +117,23 @@ const setEmployee = () => {[
 chooseAction();
 }
 
+const updateEmployeeRole = () => {[
+    {
+        type: 'list',
+        name: 'employees',
+        message: 'Which employee\'s role do you want to update?'
+        choices: []  //from employee database
+    },
+]
+setRole();
+    chooseAction();
+};
+
+
+
+
+
+
 function init() {
     inquirer.createPromptModule(mainQuestions)
         .then()
