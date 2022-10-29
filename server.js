@@ -21,3 +21,4 @@ const db = mysql.createConnection(
     },
     console.log(`Successfully connected to the organization_db database!`)
 );
+
