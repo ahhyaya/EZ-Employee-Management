@@ -3,19 +3,19 @@ CREATE DATABASE organization_db;
 
 USE organization_db;
 
-CREATE TABLE department (
+CREATE TABLE departments (
     id INT NOT NULL AUTO_INCREMINT PRIMARY KEY,
     name VARCHAR(30),
 );
 
-CREATE TABLE role (
+CREATE TABLE roles (
     id INT NOT NULL AUTO_INCREMINT PRIMARY KEY,
     title VARCHAR(30),
     salary DECIMAL NOT NULL,
     department_id INT NOT NULL,
 );
 
-CREATE TABLE employee (
+CREATE TABLE employees (
     id INT NOT NULL AUTO_INCREMINT PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),

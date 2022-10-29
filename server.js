@@ -22,3 +22,8 @@ const db = mysql.createConnection(
     console.log(`Successfully connected to the organization_db database!`)
 );
 
+// query to show all departments table
+db.query(`SELECT * FROM departments`, function (err, results) {
+    console.table(results);
+});
+
