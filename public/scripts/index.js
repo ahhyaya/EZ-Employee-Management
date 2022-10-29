@@ -70,6 +70,52 @@ const setRole = () => {[
 chooseAction();
 };
 
+// setup employee
+const setEmployee = () => {[
+    {
+        type: 'input',
+        name: 'firstName',
+        message: 'What is employee\'s first name?',
+    },
+    {
+        type: 'input',
+        name: 'lastName',
+        message: 'What is employee\'s last name?',
+    },
+    {
+        type: 'list',
+        name: 'employeeRole',
+        message: 'What is employee\'s role?',
+        choices: [
+            'Sales Lead',
+            'Salesperson',
+            'Lead Engineer',
+            'Software Engineer',
+            'Account Manager',
+            'Accountant',
+            'Legal Team Lead',
+            'Lawyer',
+            'Customer Service'
+        ]
+    },
+    {
+        type: 'list',
+        name: 'employeesManager',
+        message: 'Who is employee\'s Manager?',
+        choices: [
+            'None',
+            'John Doe',
+            'Mike Chan',
+            'Ashley Rodriguez',
+            'Software Engineer',
+            'Kevin Tupik',
+            'Kunal Singh',
+            'Malia Brown',
+        ]
+    },
+]
+chooseAction();
+}
 
 function init() {
     inquirer.createPromptModule(mainQuestions)
