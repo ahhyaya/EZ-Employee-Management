@@ -18,6 +18,12 @@ const mainQuestions = [
         ]
         // after: show related info
     },
+    {
+        type: 'input',
+        name: 'department',
+        message: 'What is the name of the department?'
+    },
+    
    
 ]
 
