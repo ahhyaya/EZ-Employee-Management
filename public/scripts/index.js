@@ -85,8 +85,8 @@ const addDepartment = () => {
     chooseAction();
 }};
 
-// setup role
-const setRole = () => {
+// add role
+const addRole = () => {
     [
         {
             type: 'input',
@@ -114,8 +114,8 @@ const setRole = () => {
     chooseAction();
 };
 
-// setup employee
-const setEmployee = () => {
+// add employee
+const addEmployee = () => {
     [
         {
             type: 'input',
@@ -171,7 +171,7 @@ const updateEmployeeRole = () => {
             choices: []  //from employee database
         },
     ]
-    setRole();
+    addRole();
     chooseAction();
 };
 
@@ -186,6 +186,6 @@ const updateEmployeeRole = () => {
 // }
 
 chooseAction()
-    .then(setDepartment)
-    .then(setRole)
-    .then(setEmployee)
+    .then(addDepartment)
+    .then(addRole)
+    .then(addEmployee)
