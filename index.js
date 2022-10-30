@@ -2,8 +2,6 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 require('console.table');
 
-// log main title
-
 // Connect to database
 const db = mysql.createConnection(
     {
@@ -18,21 +16,6 @@ const db = mysql.createConnection(
 db.connect(() => {
     chooseAction();
 })
-
-// // query to show all departments table
-// db.query(`SELECT * FROM departments`, function (err, results) {
-//     console.table(results);
-// });
-
-// // query to show all roles table
-// db.query(`SELECT * FROM roles`, function (err, results) {
-//     console.table(results);
-// });
-
-// // query to show all employees table
-// db.query(`SELECT * FROM employees`, function (err, results) {
-//     console.table(results);
-// });
 
 
 const chooseAction = () => {
@@ -269,15 +252,3 @@ const updateEmployeeRole = () => {
     addRole();
     chooseAction();
 };
-
-
-
-
-
-
-// function init() {
-//     inquirer.createPromptModule(mainQuestions)
-//         .then()
-// }
-
-// chooseAction()
