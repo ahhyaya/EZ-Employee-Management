@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-
+require('console.table');
 
 // log main title
 
@@ -14,6 +14,10 @@ const db = mysql.createConnection(
     },
     console.log(`Successfully connected to the organization_db database!`)
 );
+
+db.connect(() => {
+    chooseAction();
+})
 
 // // query to show all departments table
 // db.query(`SELECT * FROM departments`, function (err, results) {
@@ -56,8 +60,8 @@ const chooseAction = () => {
         }
     ])
         .then((answers) => {
-            const { choices } = answers;
-            switch (answers) {
+            const { actions } = answers;
+            switch (actions) {
                 case 'View All Departments':
                     viewAllDepartments();
                     break;
@@ -89,6 +93,14 @@ const chooseAction = () => {
             }
         })
 };
+
+// view dept 
+const viewAllDepartments = () => {
+    db.query(`SELECT * FROM departments`, (err, results) =>{
+        console.table(results);
+        chooseAction();
+    })
+}
 
 // add department
 const addDepartment = () => {
