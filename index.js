@@ -1,6 +1,4 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
-const { default: Choices } = require('inquirer/lib/objects/choices');
 const mysql = require('mysql2');
 
 // log main title
@@ -16,20 +14,20 @@ const db = mysql.createConnection(
     console.log(`Successfully connected to the organization_db database!`)
 );
 
-// query to show all departments table
-db.query(`SELECT * FROM departments`, function (err, results) {
-    console.table(results);
-});
+// // query to show all departments table
+// db.query(`SELECT * FROM departments`, function (err, results) {
+//     console.table(results);
+// });
 
-// query to show all roles table
-db.query(`SELECT * FROM roles`, function (err, results) {
-    console.table(results);
-});
+// // query to show all roles table
+// db.query(`SELECT * FROM roles`, function (err, results) {
+//     console.table(results);
+// });
 
-// query to show all employees table
-db.query(`SELECT * FROM employees`, function (err, results) {
-    console.table(results);
-});
+// // query to show all employees table
+// db.query(`SELECT * FROM employees`, function (err, results) {
+//     console.table(results);
+// });
 
 
 const chooseAction = () => {
@@ -93,25 +91,25 @@ const chooseAction = () => {
 
 // add department
 const addDepartment = () => {
+    query = `SELECT name AS 'Departments' FROM departments`;
+    db.query(query, (err, results) => {
+        if (err) throw err;
+        console.table('All departments: ', results);
+   
     inquirer.prompt(
     [
         {
             type: 'input',
             name: 'department',
             message: 'What is the name of the department?'
-        },
-    ])
-    .then((res) => {
-        db.query (`Insert into department table? `),
-        {
-            name: res.name
         }
-    });
-    (err) => {
-        if(err) throw err
-        console.table(res)
-    chooseAction();
-}};
+    ])
+    .then((answers) => {
+        db.query(`INSERT INTO departments TABLE(?)`, answers.department)
+        chooseAction();
+    })
+})
+};
 
 // add role
 const addRole = () => {
@@ -214,6 +212,4 @@ const updateEmployeeRole = () => {
 // }
 
 chooseAction()
-    .then(addDepartment)
-    .then(addRole)
-    .then(addEmployee)
+   
