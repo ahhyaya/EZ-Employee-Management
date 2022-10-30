@@ -127,13 +127,20 @@ const addDepartment = () => {
     .then((answers) => {
         db.query(`INSERT INTO departments (name) VALUES(?)`, answers.department,(err, results) => {
         viewAllDepartments();
-        })
-        
+        }) 
     })
 };
 
 // add role
 const addRole = () => {
+    db.query(`SELECT * FROM departments;`, (err,res) => {
+        if (err) throw err;
+    let department = res.map(departments => (
+        {
+        name: departments.name,
+        value: departments.id
+        }
+    ))
     inquirer.prompt(
     [
         {
@@ -147,10 +154,10 @@ const addRole = () => {
             message: 'What is the salary of the role?'
         },
         {
-            type: 'input',
+            type: 'rawlist',
             name: 'roleDepartment',
             message: 'Which department does the role belong to?',
-            // choices: [
+            choices: department
             //     'Engineering',
             //     'Finance',
             //     'Legal',
@@ -163,7 +170,7 @@ const addRole = () => {
         db.query(`INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)`, [answers.role, answers.salary, answers.roleDepartment],(err, results) => {
         viewAllRoles();
         })
-        
+    });
     })
 };
 
