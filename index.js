@@ -189,7 +189,7 @@ const addEmployee = () => {
             if (err) throw err;
             let employee = res.map(employees => (
                 {
-                    name: employees.firstName + ' ' + employees.lastName,
+                    name: employees.first_name + ' ' + employees.last_name,
                     value: employees.id
                 }
             ))
@@ -220,7 +220,7 @@ const addEmployee = () => {
                     },
                 ])
                 .then((answers) => {
-                    db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.firstName, answers.lastName, answers.role, answers.manager], (err, results) => {
+                    db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.first_name, answers.last_name, answers.role, answers.manager], (err, results) => {
                         viewAllEmployees();
                     })
                     // db.query(`INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)`, [answers.role, answers.salary, answers.roleDepartment], (err, results) => {
@@ -234,14 +234,64 @@ const addEmployee = () => {
 }
 
 const updateEmployeeRole = () => {
+    db.query(`SELECT * FROM employees;`, (err, res) => {
+        if (err) throw err;
+        let employee = res.map(employees => (
+            {
+                name: employees.first_name + ' ' + employees.last_name,
+                value: employees.id
+            }
+        ))
+        db.query(`SELECT * FROM departments;`, (err, res) => {
+            if (err) throw err;
+            let department = res.map(departments => (
+                {
+                    name: departments.name,
+                    value: departments.id
+                }
+            ))
+            db.query(`SELECT * FROM roles;`, (err, res) => {
+                if (err) throw err;
+                let role = res.map(roles => (
+                    {
+                        name: roles.title,
+                        value: roles.id
+                    }
+                ))
+    inquirer.prompt (
     [
         {
-            type: 'list',
-            name: 'employees',
+            type: 'rawlist',
+            name: 'employee',
             message: 'Which employee\'s role do you want to update?',
-            choices: []  //from employee database
+            choices: employee 
         },
-    ]
-    addRole();
-    chooseAction();
+        {
+            type: 'rawlist',
+            name: 'role',
+            message: 'What is the Employee\'s new title?',
+            choices: role
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'What is the Employee\'s new salary?',
+        },
+        {
+            type: 'rawlist',
+            name: 'department',
+            message: 'What is the Employee\'s new department?',
+            choices: department
+        },
+    ])
+
+    .then((answers) => {
+        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.first_name, answers.last_name, answers.role, answers.manager], (err, results) => {
+            viewAllEmployees();
+        })
+        chooseAction();
+    })
+}) 
+}) 
+}) 
 };
