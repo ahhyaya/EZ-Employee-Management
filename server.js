@@ -1,9 +1,9 @@
 // require express and mysql2
 const express = require('express');
 const mysql = require('mysql2');
-
+const init = require('./public/scripts/index')
 // setup PORT and app
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Express middleware
@@ -37,6 +37,6 @@ db.query(`SELECT * FROM employees`, function (err, results) {
     console.table(results);
 });
 
-app.listen(PORT, () => {
-    console.log(`EZ-EMPLOYEE-MANAGEMENT running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`EZ-EMPLOYEE-MANAGEMENT running on port ${PORT}`);
+// });
