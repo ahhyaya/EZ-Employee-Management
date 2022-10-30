@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 
+
 // log main title
 
 // Connect to database
