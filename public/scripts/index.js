@@ -26,9 +26,41 @@ const chooseAction = () => {
                 'View All Roles',
                 'Add Role'
             ]
-            // after: show related info
         }
     ])
+        .then((answers) => {
+            const { choices } = answers;
+            switch (answers) {
+                case 'View All Departments':
+                    viewAllDepartments();
+                    break;
+
+                case 'Add Department':
+                    addDepartment();
+                    break;
+
+                case 'View All Employees':
+                    viewAllEmployees();
+                    break;
+
+                case 'Add Employee':
+                    addEmployee();
+                    break;
+
+                case 'Update Employee Role':
+                    updateEmployeeRole();
+                    break;
+
+                case 'View All Roles':
+                    viewAllRoles();
+                    break;
+
+                case 'Add Role':
+                    addRole();
+                    break;
+
+            }
+        })
 };
 
 // setup department
