@@ -94,7 +94,7 @@ const chooseAction = () => {
         })
 };
 
-// view dept 
+// view all departments 
 const viewAllDepartments = () => {
     db.query(`SELECT * FROM departments`, (err, results) =>{
         console.table(results);
@@ -102,6 +102,7 @@ const viewAllDepartments = () => {
     })
 }
 
+// view all roles
 const viewAllRoles = () => {
     db.query(`SELECT * FROM roles`, (err, results) =>{
         console.table(results);
@@ -166,8 +167,18 @@ const addRole = () => {
     })
 };
 
+// view all employees
+const viewAllEmployees = () => {
+    db.query(`SELECT * FROM employees`, (err, results) =>{
+        console.table(results);
+        chooseAction();
+    })
+}
+
+
 // add employee
 const addEmployee = () => {
+    inquirer.prompt(
     [
         {
             type: 'input',
@@ -210,7 +221,13 @@ const addEmployee = () => {
                 'Malia Brown',
             ]
         },
-    ]
+    ])
+    .then((answers) => {
+        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.firstName, answers.lastName, answers.employeeRole,employeesManager],(err, results) => {
+            viewAllEmployees();
+        })
+        
+    })
     chooseAction();
 }
 
