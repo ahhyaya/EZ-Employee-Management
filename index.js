@@ -102,13 +102,19 @@ const viewAllDepartments = () => {
     })
 }
 
+const viewAllRoles = () => {
+    db.query(`SELECT * FROM roles`, (err, results) =>{
+        console.table(results);
+        chooseAction();
+    })
+}
+
+
+
+
 // add department
 const addDepartment = () => {
-    query = `SELECT name AS 'Departments' FROM departments`;
-    db.query(query, (err, results) => {
-        if (err) throw err;
-        console.table('All departments: ', results);
-   
+    
     inquirer.prompt(
     [
         {
@@ -118,14 +124,16 @@ const addDepartment = () => {
         }
     ])
     .then((answers) => {
-        db.query(`INSERT INTO departments TABLE(?)`, answers.department)
-        chooseAction();
+        db.query(`INSERT INTO departments (name) VALUES(?)`, answers.department,(err, results) => {
+        viewAllDepartments();
+        })
+        
     })
-})
 };
 
 // add role
 const addRole = () => {
+    inquirer.prompt(
     [
         {
             type: 'input',
@@ -138,19 +146,24 @@ const addRole = () => {
             message: 'What is the salary of the role?'
         },
         {
-            type: 'list',
+            type: 'input',
             name: 'roleDepartment',
             message: 'Which department does the role belong to?',
-            choices: [
-                'Engineering',
-                'Finance',
-                'Legal',
-                'Sales',
-                'Service'
-            ]
+            // choices: [
+            //     'Engineering',
+            //     'Finance',
+            //     'Legal',
+            //     'Sales',
+            //     'Service'
+            // ]
         },
-    ]
-    chooseAction();
+    ])
+    .then((answers) => {
+        db.query(`INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)`, [answers.role, answers.salary, answers.roleDepartment],(err, results) => {
+        viewAllRoles();
+        })
+        
+    })
 };
 
 // add employee
@@ -224,5 +237,5 @@ const updateEmployeeRole = () => {
 //         .then()
 // }
 
-chooseAction()
+// chooseAction()
    
