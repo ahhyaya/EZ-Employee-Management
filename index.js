@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
+const { listenerCount } = require('mysql2/typings/mysql/lib/Connection');
 require('console.table');
 
 // Connect to database
@@ -35,6 +36,7 @@ const chooseAction = () => {
                 'View All Departments',
                 'Add Department',
                 'View All Employees',
+                'View All Employees by Manager',
                 'Add Employee',
                 'Update Employee Role',
                 'Update Employee Manager',
@@ -57,6 +59,10 @@ const chooseAction = () => {
 
                 case 'View All Employees':
                     viewAllEmployees();
+                    break;
+
+                case 'View All Employees by Manager':
+                    viewAllEmployeesByManager();
                     break;
 
                 case 'Add Employee':
@@ -179,6 +185,34 @@ const viewAllEmployees = () => {
     })
 }
 
+// allows users to view employees by manager
+const viewAllEmployeesByManager = () => {
+    db.query(`SELECT id,first_name,last_name manager_id FROM employess;`, (err, res) => {
+        if(err) throw err;
+        let managers = res.map(employees => (
+            {
+                name: employees.first_name + " " + employees.last_name,
+                value: employees.id
+            }
+        ))
+    inquirer.prompt(
+        [
+            {
+                type: 'list',
+                name: 'managers',
+                message: 'Please chooese a manager to see the employee\'s of: ',
+                choices: managers
+            }
+        ]
+    )
+    .then((res) => {
+        db.query(`SELECT id,first_name,last_name,manager_id FROM ${res.managers};`, (err, results) => {
+            console.table(results);
+            chooseAction()
+        })
+    })
+    })
+}
 
 // add employee
 const addEmployee = () => {
@@ -336,3 +370,7 @@ const updateEmployeeManager = () => {
             })
     })
 };
+
+
+
+
