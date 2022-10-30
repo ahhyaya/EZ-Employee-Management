@@ -79,7 +79,7 @@ const chooseAction = () => {
                     console.log(`\n 
                     ***************************************************
                     *                                                 *
-                    *  Successfully exit from EZ-Employee-Management. *
+                    *  Successfully Exit From EZ-Employee-Management. *
                     *                                                 *
                     *               Thanks for using!                 *
                     *                                                 *
@@ -211,33 +211,12 @@ const addEmployee = () => {
                         name: 'role',
                         message: 'What is employee\'s role?',
                         choices: role
-                        // [
-                        //     'Sales Lead',
-                        //     'Salesperson',
-                        //     'Lead Engineer',
-                        //     'Software Engineer',
-                        //     'Account Manager',
-                        //     'Accountant',
-                        //     'Legal Team Lead',
-                        //     'Lawyer',
-                        //     'Customer Service'
-                        // ]
                     },
                     {
                         type: 'rawlist',
                         name: 'manager',
                         message: 'Who is employee\'s Manager?',
                         choices: employee
-                        // [
-                        //     'None',
-                        //     'John Doe',
-                        //     'Mike Chan',
-                        //     'Ashley Rodriguez',
-                        //     'Software Engineer',
-                        //     'Kevin Tupik',
-                        //     'Kunal Singh',
-                        //     'Malia Brown',
-                        // ]
                     },
                 ])
                 .then((answers) => {
@@ -247,7 +226,6 @@ const addEmployee = () => {
                     // db.query(`INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)`, [answers.role, answers.salary, answers.roleDepartment], (err, results) => {
                     //     viewAllRoles();
                     // })
-
                     chooseAction();
                 })
 
