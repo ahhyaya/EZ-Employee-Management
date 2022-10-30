@@ -63,17 +63,27 @@ const chooseAction = () => {
         })
 };
 
-// setup department
-const setDepartment = () => {
+// add department
+const addDepartment = () => {
+    inquirer.prompt(
     [
         {
             type: 'input',
             name: 'department',
             message: 'What is the name of the department?'
         },
-    ]
+    ])
+    .then((res) => {
+        db.query (`Insert into department table? `),
+        {
+            name: res.name
+        }
+    });
+    (err) => {
+        if(err) throw err
+        console.table(res)
     chooseAction();
-};
+}};
 
 // setup role
 const setRole = () => {
