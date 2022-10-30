@@ -37,6 +37,7 @@ const chooseAction = () => {
                 'View All Employees',
                 'Add Employee',
                 'Update Employee Role',
+                'Update Employee Manager',
                 'View All Roles',
                 'Add Role',
                 'Quit'
@@ -64,6 +65,10 @@ const chooseAction = () => {
 
                 case 'Update Employee Role':
                     updateEmployeeRole();
+                    break;
+
+                case 'Update Employee Manager':
+                    updateEmployeeManager();
                     break;
 
                 case 'View All Roles':
@@ -258,40 +263,76 @@ const updateEmployeeRole = () => {
                         value: roles.id
                     }
                 ))
-    inquirer.prompt (
-    [
-        {
-            type: 'rawlist',
-            name: 'employee',
-            message: 'Which employee\'s role do you want to update?',
-            choices: employee 
-        },
-        {
-            type: 'rawlist',
-            name: 'role',
-            message: 'What is the Employee\'s new title?',
-            choices: role
-        },
-        {
-            type: 'input',
-            name: 'salary',
-            message: 'What is the Employee\'s new salary?',
-        },
-        {
-            type: 'rawlist',
-            name: 'department',
-            message: 'What is the Employee\'s new department?',
-            choices: department
-        },
-    ])
+                inquirer.prompt(
+                    [
+                        {
+                            type: 'rawlist',
+                            name: 'employee',
+                            message: 'Which employee\'s role do you want to update?',
+                            choices: employee
+                        },
+                        {
+                            type: 'rawlist',
+                            name: 'role',
+                            message: 'What is the Employee\'s new title?',
+                            choices: role
+                        },
+                        {
+                            type: 'input',
+                            name: 'salary',
+                            message: 'What is the Employee\'s new salary?',
+                        },
+                        {
+                            type: 'rawlist',
+                            name: 'department',
+                            message: 'What is the Employee\'s new department?',
+                            choices: department
+                        },
+                    ])
 
-    .then((answers) => {
-        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.first_name, answers.last_name, answers.role, answers.manager], (err, results) => {
-            viewAllEmployees();
+                    .then((answers) => {
+                        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.first_name, answers.last_name, answers.role, answers.manager], (err, results) => {
+                            viewAllEmployees();
+                        })
+                        chooseAction();
+                    })
+            })
         })
-        chooseAction();
     })
-}) 
-}) 
-}) 
+};
+
+// allows users to update employee managers
+
+const updateEmployeeManager = () => {
+    db.query(`SELECT * FROM employees;`, (err, res) => {
+        if (err) throw err;
+        let employee = res.map(employees => (
+            {
+                name: employees.first_name + ' ' + employees.last_name,
+                value: employees.id
+            }
+        ))
+        inquirer.prompt(
+            [
+                {
+                    type: 'rawlist',
+                    name: 'employee',
+                    message: 'Which employee\'s manager do you want to update?',
+                    choices: employee
+                },
+                {
+                    type: 'rawlist',
+                    name: 'manager',
+                    message: 'Which manager is going to be employee\'s new manager?',
+                    choices: employee
+                }
+            ])
+
+            .then((answers) => {
+                db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.first_name, answers.last_name, answers.role, answers.manager], (err, results) => {
+                    viewAllEmployees();
+                })
+                chooseAction();
+            })
+    })
 };
