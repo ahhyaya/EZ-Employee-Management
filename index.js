@@ -38,7 +38,8 @@ const chooseAction = () => {
                 'Add Employee',
                 'Update Employee Role',
                 'View All Roles',
-                'Add Role'
+                'Add Role',
+                'Quit'
             ]
         }
     ])
@@ -73,6 +74,20 @@ const chooseAction = () => {
                     addRole();
                     break;
 
+                case 'Quit':
+                    db.end();
+                    console.log(`\n 
+                    ***************************************************
+                    *                                                 *
+                    *  Successfully exit from EZ-Employee-Management. *
+                    *                                                 *
+                    *               Thanks for using!                 *
+                    *                                                 *
+                    ***************************************************
+                    \n`)
+                    return;
+                default:
+                    break;
             }
         })
 };
