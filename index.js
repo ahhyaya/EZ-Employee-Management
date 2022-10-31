@@ -1,6 +1,5 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const { listenerCount } = require('mysql2/typings/mysql/lib/Connection');
 require('console.table');
 
 // Connect to database
@@ -187,32 +186,29 @@ const viewAllEmployees = () => {
 
 // allows users to view employees by manager
 const viewAllEmployeesByManager = () => {
-    db.query(`SELECT id,first_name,last_name manager_id FROM employess;`, (err, res) => {
-        if(err) throw err;
+    db.query(`SELECT * FROM employees;`, (err, res) => {
+        if (err) throw err;
         let managers = res.map(employees => (
             {
-                name: employees.first_name + " " + employees.last_name,
+                name: employees.first_name + ' ' + employees.last_name,
                 value: employees.id
             }
         ))
-    inquirer.prompt(
-        [
-            {
-                type: 'list',
-                name: 'managers',
-                message: 'Please chooese a manager to see the employee\'s of: ',
-                choices: managers
-            }
-        ]
-    )
-    .then((res) => {
-        db.query(`SELECT id,first_name,last_name,manager_id FROM ${res.managers};`, (err, results) => {
-            console.table(results);
-            chooseAction()
-        })
+        inquirer.prompt(
+            [
+                {
+                    type: 'list',
+                    name: 'managers',
+                    message: 'Please chooese a manager to see the employee\'s of: ',
+                    choices: managers
+                }
+            ]
+        )
+    db.query(`SELECT * FROM employees WHERE manager_id = ${managers.manager_id};` , (err, res) => {
+        console.table(res);
+        chooseAction;
     })
-    })
-}
+})}
 
 // add employee
 const addEmployee = () => {
