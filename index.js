@@ -41,6 +41,7 @@ const chooseAction = () => {
                 'Update Employee Manager',
                 'View All Roles',
                 'Add Role',
+                'View Department Budget',
                 'Quit'
             ]
         }
@@ -82,6 +83,10 @@ const chooseAction = () => {
 
                 case 'Add Role':
                     addRole();
+                    break;
+
+                case 'View Department Budget':
+                    viewDepartmentBudget();
                     break;
 
                 case 'Quit':
@@ -366,6 +371,37 @@ const updateEmployeeManager = () => {
     })
 };
 
+// allows users to view the total utilized budget of a department—in other words, the combined salaries of all employees in that department (8 points).
 
-
-
+const viewDepartmentBudget = () => {
+db.query(`SELECT * FROM departments;`, (err, res) => {
+    if (err) throw err;
+    let department = res.map(departments => (
+        {
+            name: departments.name,
+            value: departments.id
+        }
+    ))
+    inquirer.prompt(
+        [
+            {
+                type: 'list',
+                name: 'department',
+                message: 'Please select a department to view the budget: ',
+                choices: department
+            },
+        ])
+            .then((ans)  => {
+                db.query(`SELECT SUM(roles.salary) FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, res) => {
+                    if (err) throw err;
+                    // let department = res.map(departments => (
+                    //     {
+                    //         name: departments.name,
+                    //         value: departments.id
+                    //     }
+                    // ))
+                    console.table(res)
+            })
+            })
+})
+}
