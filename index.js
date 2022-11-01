@@ -358,7 +358,7 @@ const updateEmployeeManager = () => {
             ])
 
             .then((answers) => {
-                db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.first_name, answers.last_name, answers.role, answers.manager], (err, results) => {
+                db.query(`UPDATE employees SET manager_id = ? WHERE id = ?`, [answers.manager, answers.employee], (err, results) => {
                     viewAllEmployees();
                 })
                 chooseAction();
