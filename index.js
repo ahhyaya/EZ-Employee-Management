@@ -186,29 +186,29 @@ const viewAllEmployees = () => {
 
 // allows users to view employees by manager
 const viewAllEmployeesByManager = () => {
-    db.query(`SELECT * FROM employees;`, (err, res) => {
-        if (err) throw err;
-        let managers = res.map(employees => (
-            {
-                name: employees.first_name + ' ' + employees.last_name,
-                value: employees.id
-            }
-        ))
-        inquirer.prompt(
-            [
-                {
-                    type: 'list',
-                    name: 'managers',
-                    message: 'Please chooese a manager to see the employee\'s of: ',
-                    choices: managers
+    db.query("SELECT * FROM employees WHERE manager_id IS NULL;", (err, results) => {
+        inquirer.prompt({
+            type: "list",
+            message: "Please select a manager",
+            name: "managerId",
+            choices: results.map((res) => {
+                return {
+                    name: res.first_name + " " + res.last_name,
+                    value: res.id
                 }
-            ]
-        )
-    db.query(`SELECT * FROM employees WHERE manager_id = ${managers.manager_id};` , (err, res) => {
-        console.table(res);
-        chooseAction;
+            })
+        })
+        .then((ans) => {
+            db.query(`SELECT * FROM employees WHERE manager_id = ${ans.managerId}`,(err, results) => {
+                console.table(results)
+                chooseAction();
+
+            })
+        })
     })
-})}
+   
+
+}
 
 // add employee
 const addEmployee = () => {
