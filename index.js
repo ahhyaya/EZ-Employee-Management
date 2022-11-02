@@ -271,7 +271,7 @@ const addEmployee = () => {
             if (err) throw err;
             let employee = res.map(employees => (
                 {
-                    name: employees.first_name + ' ' + employees.last_name,
+                    name: employees.first_name + ' ' + employees.last_name + ' (ManagerID: ' + employees.manager_id + ')',
                     value: employees.id
                 }
             ))
@@ -303,6 +303,7 @@ const addEmployee = () => {
                 ])
                 .then((answers) => {
                     db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.firstName, answers.lastName, answers.role, answers.manager], (err, results) => {
+                        console.log('\n')
                         viewAllEmployees();
                     })
                     chooseAction();
