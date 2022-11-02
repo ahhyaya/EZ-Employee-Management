@@ -122,7 +122,8 @@ const viewAllDepartments = () => {
 
 // view all roles
 const viewAllRoles = () => {
-    db.query(`SELECT name FROM departments LEFT JOIN roles ON departments.id = roles.department_id WHERE roles.department_id = ?`,[departments.name], (err, results) => {
+    db.query(`SELECT roles.id AS RoleID, roles.title AS Title, roles.salary AS Salary,departments.name AS Department FROM departments LEFT JOIN roles ON departments.id = roles.department_id ORDER BY roles.id asc`, (err, results) => {
+        if(err) throw err;
         console.table(results);
         chooseAction();
     })
