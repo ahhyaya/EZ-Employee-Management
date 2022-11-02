@@ -21,9 +21,13 @@ db.connect(() => {
 const chooseAction = () => {
     console.log(
         `
-=======================================
-    EZ-Employee-Management
----------------------------------------
+        ***************************************************
+        *                                                 *
+        *        Welcome To EZ-Employee-Management!       *
+        *                                                 *
+        *                     Enjoy!                      *
+        *                                                 *
+        ***************************************************
      `);
     // main questions array
     return inquirer.prompt([
@@ -418,12 +422,6 @@ db.query(`SELECT * FROM departments;`, (err, res) => {
             .then((ans)  => {
                 db.query(`SELECT SUM(roles.salary) FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, res) => {
                     if (err) throw err;
-                    // let department = res.map(departments => (
-                    //     {
-                    //         name: departments.name,
-                    //         value: departments.id
-                    //     }
-                    // ))
                     console.table(res)
             })
             })
