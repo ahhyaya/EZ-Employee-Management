@@ -36,6 +36,7 @@ const chooseAction = () => {
                 'Add Department',
                 'View All Employees',
                 'View All Employees by Manager',
+                'View All Employees by department',
                 'Add Employee',
                 'Update Employee Role',
                 'Update Employee Manager',
@@ -63,6 +64,10 @@ const chooseAction = () => {
 
                 case 'View All Employees by Manager':
                     viewAllEmployeesByManager();
+                    break;
+
+                case 'View All Employees by department':
+                    viewAllEmployeesByDepartment();
                     break;
 
                 case 'Add Employee':
@@ -211,9 +216,32 @@ const viewAllEmployeesByManager = () => {
             })
         })
     })
-   
-
 }
+
+// allows users to view employees by department
+const viewAllEmployeesByDepartment = () => {
+    db.query("SELECT * FROM department WHERE name;", (err, results) => {
+        inquirer.prompt({
+            type: "list",
+            message: "Please select a department",
+            name: "department",
+            choices: results.map((res) => {
+                return {
+                    name: res.name,
+                    value: res.id
+                }
+            })
+        })
+        .then((ans) => {
+            db.query(`SELECT * FROM department WHERE department.name = ${ans.department}`,(err, results) => {
+                console.table(results)
+                chooseAction();
+
+            })
+        })
+    })
+}
+
 
 // add employee
 const addEmployee = () => {
