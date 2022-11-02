@@ -353,10 +353,13 @@ const updateEmployeeRole = () => {
                             if(err) throw err;
                             console.log('\n')
                             viewAllEmployees();
+                            chooseAction();
                         })
-                        chooseAction();
+                        
                     })
+                   
             })
+           
         })
 };
 
@@ -392,8 +395,9 @@ const updateEmployeeManager = () => {
                     if(err) throw err;
                     console.log('\n')
                     viewAllEmployees();
+                    chooseAction();
                 })
-                chooseAction();
+                
             })
     })
 };
