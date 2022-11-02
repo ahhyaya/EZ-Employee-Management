@@ -26,10 +26,13 @@
    * able to to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
    * able to to select an employee to update and their new role and this information is updated in the database
    
-   ![feature1](./Assets/1.png)
-   ![feature1](./Assets/2.png)
-   ![feature1](./Assets/3.png)
-   ![feature1](./Assets/4.png)
+   ![feature1](./db/1.png)
+   ![feature1](./db/2.png)
+   ![feature1](./db/3.png)
+   ![feature1](./db/4.png)
+   ![feature1](./db/5.png)
+   ![feature1](./db/6.png)
+   ![feature1](./db/7.png)
   ---
   ## Installation
    * inquirer package (npm i inquirer@8.2.4), 

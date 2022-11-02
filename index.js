@@ -53,7 +53,7 @@ const chooseAction = () => {
         }
     ])
         .then((answers) => {
-            const { actions } = answers;
+            const  actions  = answers.actions;
             switch (actions) {
                 case 'View All Departments':
                     viewAllDepartments();
