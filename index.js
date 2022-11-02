@@ -131,8 +131,6 @@ const viewAllRoles = () => {
 }
 
 
-
-
 // add department
 const addDepartment = () => {
 
@@ -190,12 +188,13 @@ const addRole = () => {
 
 // view all employees
 const viewAllEmployees = () => {
-    db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, roles.title AS Title, roles.salary AS Salary, department.name AS Department
+    db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, roles.title AS Title, roles.salary AS Salary, departments.name AS Department
                 FROM employees
                 LEFT JOIN roles
                     ON employees.role_id = roles.id
                 LEFT JOIN departments
                     ON roles.department_id = departments.id`,(err, results) => {
+        if(err) throw err;
         console.table(results);
         chooseAction();
     })
