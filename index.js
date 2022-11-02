@@ -212,7 +212,6 @@ const viewAllEmployeesByManager = () => {
             db.query(`SELECT * FROM employees WHERE manager_id = ${ans.managerId}`,(err, results) => {
                 console.table(results)
                 chooseAction();
-
             })
         })
     })
@@ -220,7 +219,7 @@ const viewAllEmployeesByManager = () => {
 
 // allows users to view employees by department
 const viewAllEmployeesByDepartment = () => {
-    db.query("SELECT * FROM department WHERE name;", (err, results) => {
+    db.query("SELECT * FROM employees WHERE role_id;", (err, results) => {
         inquirer.prompt({
             type: "list",
             message: "Please select a department",
@@ -233,11 +232,13 @@ const viewAllEmployeesByDepartment = () => {
             })
         })
         .then((ans) => {
-            db.query(`SELECT * FROM department WHERE department.name = ${ans.department}`,(err, results) => {
+            db.query(`SELECT * FROM roles WHERE department.id = ${ans.department_id}`,(err, results) => {
+                // db.query(`SELECT * FROM employees WHERE role_id = ${results.role_id}`),
+                // (err, res) => {
                 console.table(results)
                 chooseAction();
-
-            })
+                }
+            )
         })
     })
 }
