@@ -215,7 +215,13 @@ const viewAllEmployeesByManager = () => {
             })
         })
         .then((ans) => {
-            db.query(`SELECT * FROM employees WHERE manager_id = ${ans.managerId}`,(err, results) => {
+            db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, roles.title AS Title, roles.salary AS Salary, departments.name AS Department, employees.manager_id AS ManagerID 
+            FROM employees 
+            LEFT JOIN roles ON employees.role_id = roles.id 
+            LEFT JOIN departments ON roles.department_id = departments.id
+            WHERE manager_id = ${ans.managerId}`
+            ,(err, results) => {
+                if(err) throw err;
                 console.table(results)
                 chooseAction();
             })
