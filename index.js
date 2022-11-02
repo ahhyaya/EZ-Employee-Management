@@ -1,3 +1,4 @@
+// require pkgs
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 require('console.table');
@@ -17,6 +18,7 @@ db.connect(() => {
     chooseAction();
 })
 
+// start log
 console.log(
     `
     ***************************************************
@@ -28,8 +30,9 @@ console.log(
     ***************************************************
  `);
 
+// start questions
 const chooseAction = () => {
-   
+
     // main questions array
     return inquirer.prompt([
         {
@@ -52,8 +55,9 @@ const chooseAction = () => {
             ]
         }
     ])
+        // action choices
         .then((answers) => {
-            const  actions  = answers.actions;
+            const actions = answers.actions;
             switch (actions) {
                 case 'View All Departments':
                     viewAllDepartments();
@@ -120,7 +124,7 @@ const chooseAction = () => {
 // view all departments 
 const viewAllDepartments = () => {
     db.query(`SELECT departments.id AS DepartmentID, departments.name AS Department FROM departments`, (err, results) => {
-        if(err) throw err;
+        if (err) throw err;
         console.table(results);
         chooseAction();
     })
@@ -129,7 +133,7 @@ const viewAllDepartments = () => {
 // view all roles
 const viewAllRoles = () => {
     db.query(`SELECT roles.id AS RoleID, roles.title AS Title, roles.salary AS Salary,departments.name AS Department FROM departments LEFT JOIN roles ON departments.id = roles.department_id ORDER BY roles.id asc`, (err, results) => {
-        if(err) throw err;
+        if (err) throw err;
         console.table(results);
         chooseAction();
     })
@@ -198,8 +202,8 @@ const viewAllEmployees = () => {
                 LEFT JOIN roles
                     ON employees.role_id = roles.id
                 LEFT JOIN departments
-                    ON roles.department_id = departments.id`,(err, results) => {
-        if(err) throw err;
+                    ON roles.department_id = departments.id`, (err, results) => {
+        if (err) throw err;
         console.table(results);
         chooseAction();
     })
@@ -219,18 +223,18 @@ const viewAllEmployeesByManager = () => {
                 }
             })
         })
-        .then((ans) => {
-            db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, roles.title AS Title, roles.salary AS Salary, departments.name AS Department, employees.manager_id AS ManagerID 
+            .then((ans) => {
+                db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, roles.title AS Title, roles.salary AS Salary, departments.name AS Department, employees.manager_id AS ManagerID 
             FROM employees 
             LEFT JOIN roles ON employees.role_id = roles.id 
             LEFT JOIN departments ON roles.department_id = departments.id
             WHERE manager_id = ${ans.managerId}`
-            ,(err, results) => {
-                if(err) throw err;
-                console.table(results)
-                chooseAction();
+                    , (err, results) => {
+                        if (err) throw err;
+                        console.table(results)
+                        chooseAction();
+                    })
             })
-        })
     })
 }
 
@@ -248,14 +252,14 @@ const viewAllEmployeesByDepartment = () => {
                 }
             })
         })
-        .then((ans) => {
-            db.query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, results) => {
-                if(err) throw err;
-                console.table(results)
-                chooseAction();
+            .then((ans) => {
+                db.query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`, [ans.department], (err, results) => {
+                    if (err) throw err;
+                    console.table(results)
+                    chooseAction();
                 }
-            )
-        })
+                )
+            })
     })
 }
 
@@ -315,6 +319,7 @@ const addEmployee = () => {
     })
 }
 
+// update Employee role
 const updateEmployeeRole = () => {
     db.query(`SELECT * FROM employees;`, (err, res) => {
         if (err) throw err;
@@ -324,47 +329,47 @@ const updateEmployeeRole = () => {
                 value: employees.id
             }
         ))
-            db.query(`SELECT * FROM roles;`, (err, res) => {
-                if (err) throw err;
-                let role = res.map(roles => (
+        db.query(`SELECT * FROM roles;`, (err, res) => {
+            if (err) throw err;
+            let role = res.map(roles => (
+                {
+                    name: roles.title,
+                    value: roles.id
+                }
+            ))
+            inquirer.prompt(
+                [
                     {
-                        name: roles.title,
-                        value: roles.id
-                    }
-                ))
-                inquirer.prompt(
-                    [
-                        {
-                            type: 'rawlist',
-                            name: 'employee',
-                            message: 'Which employee\'s role do you want to update?',
-                            choices: employee
-                        },
-                        {
-                            type: 'rawlist',
-                            name: 'role',
-                            message: 'What is the Employee\'s new title?',
-                            choices: role
-                        },
-                    ])
+                        type: 'rawlist',
+                        name: 'employee',
+                        message: 'Which employee\'s role do you want to update?',
+                        choices: employee
+                    },
+                    {
+                        type: 'rawlist',
+                        name: 'role',
+                        message: 'What is the Employee\'s new title?',
+                        choices: role
+                    },
+                ])
 
-                    .then((answers) => {
-                        db.query(`UPDATE employees SET role_id = ? WHERE id = ?`, [answers.role, answers.employee], (err, results) => {
-                            if(err) throw err;
-                            console.log('\n')
-                            viewAllEmployees();
-                            chooseAction();
-                        })
-                        
+                .then((answers) => {
+                    db.query(`UPDATE employees SET role_id = ? WHERE id = ?`, [answers.role, answers.employee], (err, results) => {
+                        if (err) throw err;
+                        console.log('\n')
+                        viewAllEmployees();
+                        chooseAction();
                     })
-                   
-            })
-           
+
+                })
+
         })
+
+    })
 };
 
-// allows users to update employee managers
 
+// allows users to update employee managers
 const updateEmployeeManager = () => {
     db.query(`SELECT * FROM employees;`, (err, res) => {
         if (err) throw err;
@@ -392,12 +397,12 @@ const updateEmployeeManager = () => {
 
             .then((answers) => {
                 db.query(`UPDATE employees SET manager_id = ? WHERE id = ?`, [answers.manager, answers.employee], (err, results) => {
-                    if(err) throw err;
+                    if (err) throw err;
                     console.log('\n')
                     viewAllEmployees();
                     chooseAction();
                 })
-                
+
             })
     })
 };
@@ -405,30 +410,30 @@ const updateEmployeeManager = () => {
 // allows users to view the total utilized budget of a department—in other words, the combined salaries of all employees in that department (8 points).
 
 const viewDepartmentBudget = () => {
-db.query(`SELECT * FROM departments;`, (err, res) => {
-    if (err) throw err;
-    let department = res.map(departments => (
-        {
-            name: departments.name,
-            value: departments.id
-        }
-    ))
-    inquirer.prompt(
-        [
+    db.query(`SELECT * FROM departments;`, (err, res) => {
+        if (err) throw err;
+        let department = res.map(departments => (
             {
-                type: 'list',
-                name: 'department',
-                message: 'Please select a department to view the budget: ',
-                choices: department
-            },
-        ])
-            .then((ans)  => {
-                db.query(`SELECT SUM(roles.salary) AS DepartmentBudget FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, res) => {
+                name: departments.name,
+                value: departments.id
+            }
+        ))
+        inquirer.prompt(
+            [
+                {
+                    type: 'list',
+                    name: 'department',
+                    message: 'Please select a department to view the budget: ',
+                    choices: department
+                },
+            ])
+            .then((ans) => {
+                db.query(`SELECT SUM(roles.salary) AS DepartmentBudget FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`, [ans.department], (err, res) => {
                     if (err) throw err;
                     console.log('\n')
                     console.table(res)
+                })
+                chooseAction();
             })
-            chooseAction();
-            })
-})
+    })
 }
