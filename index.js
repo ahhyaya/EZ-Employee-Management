@@ -386,6 +386,8 @@ const updateEmployeeManager = () => {
 
             .then((answers) => {
                 db.query(`UPDATE employees SET manager_id = ? WHERE id = ?`, [answers.manager, answers.employee], (err, results) => {
+                    if(err) throw err;
+                    console.log('\n')
                     viewAllEmployees();
                 })
                 chooseAction();
