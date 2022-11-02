@@ -321,14 +321,6 @@ const updateEmployeeRole = () => {
                 value: employees.id
             }
         ))
-        // db.query(`SELECT * FROM departments;`, (err, res) => {
-        //     if (err) throw err;
-        //     let department = res.map(departments => (
-        //         {
-        //             name: departments.name,
-        //             value: departments.id
-        //         }
-        //     ))
             db.query(`SELECT * FROM roles;`, (err, res) => {
                 if (err) throw err;
                 let role = res.map(roles => (
@@ -351,21 +343,12 @@ const updateEmployeeRole = () => {
                             message: 'What is the Employee\'s new title?',
                             choices: role
                         },
-                        // {
-                        //     type: 'input',
-                        //     name: 'salary',
-                        //     message: 'What is the Employee\'s new salary?',
-                        // },
-                        // {
-                        //     type: 'rawlist',
-                        //     name: 'department',
-                        //     message: 'What is the Employee\'s new department?',
-                        //     choices: department
-                        // },
                     ])
 
                     .then((answers) => {
                         db.query(`UPDATE employees SET role_id = ? WHERE id = ?`, [answers.role, answers.employee], (err, results) => {
+                            if(err) throw err;
+                            console.log('\n')
                             viewAllEmployees();
                         })
                         chooseAction();
