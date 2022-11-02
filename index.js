@@ -122,7 +122,7 @@ const viewAllDepartments = () => {
 
 // view all roles
 const viewAllRoles = () => {
-    db.query(`SELECT * FROM roles`, (err, results) => {
+    db.query(`SELECT name FROM departments LEFT JOIN roles ON departments.id = roles.department_id WHERE roles.department_id = ?`,[departments.name], (err, results) => {
         console.table(results);
         chooseAction();
     })
@@ -188,7 +188,12 @@ const addRole = () => {
 
 // view all employees
 const viewAllEmployees = () => {
-    db.query(`SELECT * FROM employees`, (err, results) => {
+    db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, roles.title AS Title, roles.salary AS Salary, department.name AS Department
+                FROM employees
+                LEFT JOIN roles
+                    ON employees.role_id = roles.id
+                LEFT JOIN departments
+                    ON roles.department_id = departments.id`,(err, results) => {
         console.table(results);
         chooseAction();
     })
@@ -292,12 +297,8 @@ const addEmployee = () => {
                     db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.firstName, answers.lastName, answers.role, answers.manager], (err, results) => {
                         viewAllEmployees();
                     })
-                    // db.query(`INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)`, [answers.role, answers.salary, answers.roleDepartment], (err, results) => {
-                    //     viewAllRoles();
-                    // })
                     chooseAction();
                 })
-
         })
     })
 }
