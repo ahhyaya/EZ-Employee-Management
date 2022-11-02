@@ -193,7 +193,7 @@ const addRole = () => {
 
 // view all employees
 const viewAllEmployees = () => {
-    db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, roles.title AS Title, roles.salary AS Salary, departments.name AS Department
+    db.query(`SELECT employees.id AS EmployeeID, employees.first_name AS FirstName, employees.last_name AS LastName, employees.manager_id AS ManagerId, roles.title AS Title, roles.salary AS Salary, departments.name AS Department
                 FROM employees
                 LEFT JOIN roles
                     ON employees.role_id = roles.id
