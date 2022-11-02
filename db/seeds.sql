@@ -24,3 +24,7 @@ VALUES  ("John", "Doe", 2, 2),
         ("Kevin", "Tupik", 4, 5),
         ("Kunal", "Singh", 3, null),
         ("Malia", "Brown", 6, null);
+        ("Amy", "Kim", 4, 5),
+        ("Shawn", "Lopez", 4, 5),
+        ("Olivia", "White", 2, 2),
+        ("Beckett", "Mott", 4, 5),

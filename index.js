@@ -250,8 +250,6 @@ const viewAllEmployeesByDepartment = () => {
         })
         .then((ans) => {
             db.query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, results) => {
-
-            // db.query(`SELECT * FROM roles WHERE department_id = ${ans.department}`,(err, results) => {
                 if(err) throw err;
                 console.table(results)
                 chooseAction();
