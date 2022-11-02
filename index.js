@@ -33,15 +33,15 @@ const chooseAction = () => {
             message: 'What would you like to do?',
             choices: [
                 'View All Departments',
-                'Add Department',
+                'View All Roles',
                 'View All Employees',
-                'View All Employees by Manager',
-                'View All Employees by department',
+                'Add Department',
+                'Add Role',
                 'Add Employee',
                 'Update Employee Role',
                 'Update Employee Manager',
-                'View All Roles',
-                'Add Role',
+                'View All Employees by Manager',
+                'View All Employees by department',
                 'View Department Budget',
                 'Quit'
             ]
@@ -247,6 +247,7 @@ const viewAllEmployeesByDepartment = () => {
             db.query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, results) => {
 
             // db.query(`SELECT * FROM roles WHERE department_id = ${ans.department}`,(err, results) => {
+                if(err) throw err;
                 console.table(results)
                 chooseAction();
                 }
