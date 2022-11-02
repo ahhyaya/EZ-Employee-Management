@@ -114,7 +114,8 @@ const chooseAction = () => {
 
 // view all departments 
 const viewAllDepartments = () => {
-    db.query(`SELECT * FROM departments`, (err, results) => {
+    db.query(`SELECT departments.id AS DepartmentID, departments.name AS Department FROM departments`, (err, results) => {
+        if(err) throw err;
         console.table(results);
         chooseAction();
     })
