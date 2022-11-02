@@ -310,8 +310,8 @@ const addEmployee = () => {
                 ])
                 .then((answers) => {
                     db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`, [answers.firstName, answers.lastName, answers.role, answers.manager], (err, results) => {
-                        console.log('\n')
-                        viewAllEmployees();
+                        console.log('New Employee has been added!')
+                        // viewAllEmployees();
                     })
                     chooseAction();
                 })
@@ -356,8 +356,7 @@ const updateEmployeeRole = () => {
                 .then((answers) => {
                     db.query(`UPDATE employees SET role_id = ? WHERE id = ?`, [answers.role, answers.employee], (err, results) => {
                         if (err) throw err;
-                        console.log('\n')
-                        viewAllEmployees();
+                        console.log('Employee role has been updated!');
                         chooseAction();
                     })
 
@@ -398,11 +397,9 @@ const updateEmployeeManager = () => {
             .then((answers) => {
                 db.query(`UPDATE employees SET manager_id = ? WHERE id = ?`, [answers.manager, answers.employee], (err, results) => {
                     if (err) throw err;
-                    console.log('\n')
-                    viewAllEmployees();
+                    console.log('Employee manager has been updated!');
                     chooseAction();
                 })
-
             })
     })
 };
@@ -432,8 +429,9 @@ const viewDepartmentBudget = () => {
                     if (err) throw err;
                     console.log('\n')
                     console.table(res)
+                    chooseAction();
                 })
-                chooseAction();
+               
             })
     })
 }
