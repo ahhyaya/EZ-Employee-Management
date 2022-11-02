@@ -17,18 +17,19 @@ db.connect(() => {
     chooseAction();
 })
 
+console.log(
+    `
+    ***************************************************
+    *                                                 *
+    *        Welcome To EZ-Employee-Management!       *
+    *                                                 *
+    *                     Enjoy!                      *
+    *                                                 *
+    ***************************************************
+ `);
 
 const chooseAction = () => {
-    console.log(
-        `
-        ***************************************************
-        *                                                 *
-        *        Welcome To EZ-Employee-Management!       *
-        *                                                 *
-        *                     Enjoy!                      *
-        *                                                 *
-        ***************************************************
-     `);
+   
     // main questions array
     return inquirer.prompt([
         {
