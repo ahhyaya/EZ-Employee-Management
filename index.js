@@ -232,9 +232,7 @@ const viewAllEmployeesByDepartment = () => {
             })
         })
         .then((ans) => {
-            db.query(`SELECT * FROM roles WHERE department.id = ${ans.department_id}`,(err, results) => {
-                // db.query(`SELECT * FROM employees WHERE role_id = ${results.role_id}`),
-                // (err, res) => {
+            db.query(`SELECT * FROM roles WHERE department_id = ${ans.department}`,(err, results) => {
                 console.table(results)
                 chooseAction();
                 }
