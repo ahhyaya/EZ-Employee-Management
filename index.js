@@ -421,10 +421,12 @@ db.query(`SELECT * FROM departments;`, (err, res) => {
             },
         ])
             .then((ans)  => {
-                db.query(`SELECT SUM(roles.salary) FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, res) => {
+                db.query(`SELECT SUM(roles.salary) AS DepartmentBudget FROM employees LEFT JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?;`,[ans.department], (err, res) => {
                     if (err) throw err;
+                    console.log('\n')
                     console.table(res)
             })
+            chooseAction();
             })
 })
 }
